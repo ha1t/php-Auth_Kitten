@@ -2,7 +2,6 @@
 /**
  * Auth_Kitten example
  *
- * @author TSURUOKA Naoya <tsuruoka@php.net>
  */
 
 require_once dirname(dirname(__FILE__)) . '/Auth/Kitten.php';

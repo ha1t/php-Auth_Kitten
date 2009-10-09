@@ -3,7 +3,6 @@
  * Auth_Kitten
  *
  * @category Auth
- * @author TSURUOKA Naoya <tsuruoka@php.net>
  */
 require_once 'PEAR.php';
 
@@ -11,7 +10,6 @@ require_once 'PEAR.php';
  * Auth_Kitten
  *
  * @category Auth
- * @author TSURUOKA Naoya <tsuruoka@php.net>
  */
 class Auth_Kitten extends PEAR
 {

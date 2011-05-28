@@ -16,14 +16,15 @@ class Auth_Kitten
     private $photos = array();
     private $type = "checkbox";
 
-    public function __construct($options = false)
+    public function __construct($options = array())
     {
         $this->image_path = dirname(__FILE__) . "/Kitten/images/";
-    }
 
-    public function init()
-    {
-        $this->photos = $this->getPhotosJpg();
+        foreach ($options as $key => $value) {
+            if (in_array($key, array('image_path'))) {
+                $this->$key = $value;
+            }
+        }
     }
 
     /**
@@ -36,7 +37,7 @@ class Auth_Kitten
     public function buildHtml($viewer_path)
     {
         if (count($this->photos) == 0) {
-            $this->init();
+            $this->photos = $this->getPhotosJpg();
         }
 
         if ($this->type == 'checkbox') {
@@ -70,10 +71,7 @@ class Auth_Kitten
         
     }
 
-    /**
-     * getPhotosJpg
-     */
-    public function getPhotosJpg()
+    private function getPhotosJpg()
     {
         if ($this->type == "radio") {
             $kittens = $this->getFileList($this->image_path . "kitten");
@@ -136,11 +134,6 @@ class Auth_Kitten
         return $photos;
     }
 
-    public function setImagePath($path)
-    {
-        $this->image_path = $path;
-    }
-
     public function drawImage($file)
     {
         
@@ -167,7 +160,7 @@ class Auth_Kitten
         
     }
 
-    public function getHiddenPhrase()
+    private function getHiddenPhrase()
     {
         if ($this->type == "radio") {
             $photos = array_flip($this->photos);

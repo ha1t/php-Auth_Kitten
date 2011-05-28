@@ -4,11 +4,21 @@
  *
  */
 
-require_once dirname(dirname(__FILE__)) . '/Auth/Kitten.php';
+$kitten_dirs = array(
+    dirname(dirname(__FILE__)) . '/Auth/Kitten.php',
+    dirname(dirname(__FILE__)) . '/src/Auth/Kitten.php',
+);
+
+foreach ($kitten_dirs as $path) {
+    if (file_exists($path)) {
+        require_once $path;
+        break;
+    }
+}
 
 $kitten = new Auth_Kitten();
 
-if ($_POST['send']) {
+if (isset($_POST['send'])) {
     if ($kitten->verify($_POST['kitten'])) {
         print('OK!');
         exit();

@@ -4,50 +4,24 @@
  *
  * @category Auth
  */
-require_once 'PEAR.php';
 
 /**
  * Auth_Kitten
  *
  * @category Auth
  */
-class Auth_Kitten extends PEAR
+class Auth_Kitten
 {
+    private $image_path = "";
+    private $photos = array();
+    private $type = "checkbox";
 
-    /**
-     * Description of the Variable
-     * @var     string
-     * @access  protected
-     */
-    var $image_path = "Kitten/images/";
-
-    /**
-     * kitten and other photo list
-     * @var     array
-     * @access  protected
-     */
-    var $photos = array();
-
-    var $type = "checkbox";
-
-    /**
-     * Auth_Kitten
-     *
-     * Constructor
-     * @access public
-     * @param array|bool $options
-     */
-    function Auth_Kitten($options = false)
+    public function __construct($options = false)
     {
         $this->image_path = dirname(__FILE__) . "/Kitten/images/";
     }
 
-    /**
-     * init
-     *
-     * @access public
-     */
-    function init()
+    public function init()
     {
         $this->photos = $this->getPhotosJpg();
     }
@@ -55,12 +29,11 @@ class Auth_Kitten extends PEAR
     /**
      * buildHtml
      *
-     * @access public
      * @todo error handling
      * @param string $viewer_path
      * @return string $data
      */
-    function buildHtml($viewer_path)
+    public function buildHtml($viewer_path)
     {
         if (count($this->photos) == 0) {
             $this->init();
@@ -99,10 +72,8 @@ class Auth_Kitten extends PEAR
 
     /**
      * getPhotosJpg
-     *
-     * @access public
      */
-    function getPhotosJpg()
+    public function getPhotosJpg()
     {
         if ($this->type == "radio") {
             $kittens = $this->getFileList($this->image_path . "kitten");
@@ -149,11 +120,8 @@ class Auth_Kitten extends PEAR
 
     /**
      * getFileList
-     *
-     * @access public
-     * @param string $path
      */
-    function getFileList($path)
+    private function getFileList($path)
     {
         $dh  = opendir($path);
         while (false !== ($filename = readdir($dh))) {
@@ -168,24 +136,12 @@ class Auth_Kitten extends PEAR
         return $photos;
     }
 
-    /**
-     * setImagePath
-     *
-     * @access public
-     * @param string $path
-     */
-    function setImagePath($path)
+    public function setImagePath($path)
     {
         $this->image_path = $path;
     }
 
-    /**
-     * draw image data
-     *
-     * @access public
-     * @param string $file
-     */
-    function drawImage($file)
+    public function drawImage($file)
     {
         
         $is_kitten = file_exists($this->image_path . "kitten/{$file}");
@@ -211,13 +167,7 @@ class Auth_Kitten extends PEAR
         
     }
 
-    /**
-     * getHiddenPhrase
-     *
-     * @access public
-     * @return bool
-     */
-    function getHiddenPhrase()
+    public function getHiddenPhrase()
     {
         if ($this->type == "radio") {
             $photos = array_flip($this->photos);
@@ -229,13 +179,7 @@ class Auth_Kitten extends PEAR
         }
     }
 
-    /**
-     * verify
-     *
-     * @access public
-     * @return boolean
-     */
-    function verify($kitten, $phrase = '')
+    public function verify($kitten, $phrase = '')
     {
         if (isset($kitten['code']) && $phrase == '') {
             $phrase = $kitten['code'];
@@ -255,6 +199,4 @@ class Auth_Kitten extends PEAR
 
         return false;
     }
-
 }
-?>

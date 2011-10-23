@@ -134,30 +134,23 @@ class Auth_Kitten
         return $photos;
     }
 
-    public function drawImage($file)
+    public static function drawImage($file)
     {
-        
         $is_kitten = file_exists($this->image_path . "kitten/{$file}");
         $is_other = file_exists($this->image_path . "other/{$file}");
 
         header("Content-Type: image/jpg");
 
         if ($is_kitten || $is_other) {
-
             if ($is_kitten) {
                 $file = "kitten/" . $file;
             } else {
                 $file = "other/" . $file;
             }
-
             readfile($this->image_path . $file);
-
         } else {
-
             readfile($this->image_path . "error.jpg");
-
         }
-        
     }
 
     private function getHiddenPhrase()

@@ -68,7 +68,6 @@ class Auth_Kitten
         $data .= "</tr>\n</table>";
 
         return $data;
-        
     }
 
     private function getPhotosJpg()
@@ -134,22 +133,25 @@ class Auth_Kitten
         return $photos;
     }
 
-    public static function drawImage($file)
+    // エラーの場合、エラー画像を返す
+    // @TODO $image_pathどうするか
+    public static function drawImage($filename)
     {
-        $is_kitten = file_exists($this->image_path . "kitten/{$file}");
-        $is_other = file_exists($this->image_path . "other/{$file}");
+        $image_path = dirname(__FILE__) . "/Kitten/images/";
+        $is_kitten = file_exists($image_path . "kitten/{$filename}");
+        $is_other = file_exists($image_path . "other/{$filename}");
 
         header("Content-Type: image/jpg");
 
         if ($is_kitten || $is_other) {
             if ($is_kitten) {
-                $file = "kitten/" . $file;
+                $filename = "kitten/" . $filename;
             } else {
-                $file = "other/" . $file;
+                $filename = "other/" . $filename;
             }
-            readfile($this->image_path . $file);
+            readfile($image_path . $filename);
         } else {
-            readfile($this->image_path . "error.jpg");
+            readfile($image_path . "error.jpg");
         }
     }
 
@@ -167,7 +169,7 @@ class Auth_Kitten
 
     public function verify($kitten, $phrase = '')
     {
-        if (isset($kitten['code']) && $phrase == '') {
+        if (is_array($kitten) && isset($kitten['code']) && $phrase == '') {
             $phrase = $kitten['code'];
             unset($kitten['code']);
         }

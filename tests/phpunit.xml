@@ -1,6 +1,6 @@
 <phpunit bootstrap="./bootstrap.php" colors="true">
     
-    <testsuite name="Diggin_Http_Charset Test Suite">
+    <testsuite name="Test Suite">
      <directory>./</directory>
     </testsuite>
 

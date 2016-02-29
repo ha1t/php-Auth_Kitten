@@ -13,7 +13,6 @@
 class Auth_Kitten
 {
     private $image_path = "";
-    private $photos = array();
     private $type = "checkbox";
 
     /**
@@ -39,9 +38,7 @@ class Auth_Kitten
      */
     public function buildHtml($viewer_path)
     {
-        if (count($this->photos) == 0) {
-            $this->photos = $this->getPhotosJpg();
-        }
+        $photos = $this->getPhotosJpg();
 
         if ($this->type == 'checkbox') {
             $array = '[]';
@@ -54,7 +51,7 @@ class Auth_Kitten
         $i     = 1;
         $data .= "<table>\n<tr>\n";
 
-        foreach ($this->photos as $file => $type) {
+        foreach ($photos as $file => $type) {
             $data .= "<td>";
             $data .= "<label for=\"{$file}\">\n";
             $data .= "<img src=\"{$viewer_path}{$file}\" />";
@@ -172,11 +169,13 @@ class Auth_Kitten
      */
     private function getHiddenPhrase()
     {
+        $photos = $this->getPhotosJpg();
+
         if ($this->type == "radio") {
-            $photos = array_flip($this->photos);
+            $photos = array_flip($photos);
             return md5($photos['kitten']);
         } else {
-            $kittens = array_keys($this->photos, 'kitten');
+            $kittens = array_keys($photos, 'kitten');
             sort($kittens);
             return md5(implode('', $kittens));
         }

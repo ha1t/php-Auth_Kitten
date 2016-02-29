@@ -16,6 +16,9 @@ class Auth_Kitten
     private $photos = array();
     private $type = "checkbox";
 
+    /**
+     * @param array $options
+     */
     public function __construct($options = array())
     {
         $this->image_path = dirname(__FILE__) . "/Kitten/images/";
@@ -70,6 +73,9 @@ class Auth_Kitten
         return $data;
     }
 
+    /**
+     * @return array
+     */
     private function getPhotosJpg()
     {
         if ($this->type == "radio") {
@@ -116,15 +122,18 @@ class Auth_Kitten
     }
 
     /**
-     * getFileList
+     * @param string $path
+     * @return array
      */
     private function getFileList($path)
     {
+        $files = array();
         $dh  = opendir($path);
         while (false !== ($filename = readdir($dh))) {
             $files[] = $filename;
         }
 
+        $photos = array();
         foreach ($files as $file) {
             if (strpos($file, ".jpg")) {
                 $photos[] = $file;
@@ -133,8 +142,11 @@ class Auth_Kitten
         return $photos;
     }
 
-    // エラーの場合、エラー画像を返す
-    // @TODO $image_pathどうするか
+    /**
+     * エラーの場合、エラー画像を返す
+     * @TODO $image_pathどうするか
+     * @param $filename
+     */
     public static function drawImage($filename)
     {
         $image_path = dirname(__FILE__) . "/Kitten/images/";
@@ -155,6 +167,9 @@ class Auth_Kitten
         }
     }
 
+    /**
+     * @return string
+     */
     private function getHiddenPhrase()
     {
         if ($this->type == "radio") {
@@ -167,6 +182,11 @@ class Auth_Kitten
         }
     }
 
+    /**
+     * @param $kitten
+     * @param string $phrase
+     * @return bool
+     */
     public function verify($kitten, $phrase = '')
     {
         if (is_array($kitten) && isset($kitten['code']) && $phrase == '') {

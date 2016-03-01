@@ -40,7 +40,7 @@ class Auth_Kitten
         $photos = $this->getPhotosJpg();
 
         $array = '[]';
-        $data  = "<input type=\"hidden\" name=\"kitten[code]\" value=\"" . $this->getHiddenPhrase() . "\" />\n";
+        $data  = "<input type=\"hidden\" name=\"kitten[code]\" value=\"" . $this->getHiddenPhrase($photos) . "\" />\n";
 
         $i     = 1;
         $data .= "<table>\n<tr>\n";
@@ -135,12 +135,11 @@ class Auth_Kitten
     }
 
     /**
+     * @param array $photos
      * @return string
      */
-    private function getHiddenPhrase()
+    private function getHiddenPhrase(array $photos)
     {
-        $photos = $this->getPhotosJpg();
-
         $kittens = array_keys($photos, 'kitten');
         sort($kittens);
         return md5(implode('', $kittens));

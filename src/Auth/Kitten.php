@@ -120,7 +120,7 @@ class Auth_Kitten
         $is_kitten = file_exists($image_path . "kitten/{$filename}");
         $is_other = file_exists($image_path . "other/{$filename}");
 
-        header("Content-Type: image/jpg");
+        header("Content-Type: image/jpeg");
 
         if ($is_kitten || $is_other) {
             if ($is_kitten) {
